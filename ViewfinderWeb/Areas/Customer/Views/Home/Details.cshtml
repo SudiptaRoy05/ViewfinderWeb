@@ -1,0 +1,42 @@
+﻿@model ShoppingCart
+
+
+
+
+<form style="color:azure" method="post">
+
+    <div class="container mt-5">
+
+        <div class="row card-header">
+            <div class="col-md-6">
+                <img src="@Model.Photograph.ImageUrl" class="img-fluid rounded" alt="Product Image">
+            </div>
+            <div class="col-md-6 card-body">
+                <h2 class="mb-3 form-control border">Title : @Model.Photograph.Title</h2>
+                <p class="form-control border"><strong>Author : </strong> @Model.Photograph.Author</p>
+
+                <p class="form-control border"><strong>Price : </strong>@Model.Photograph.Price.ToString("0.00") BDT</p>
+
+                <span class="form-control border">
+                    <p class=""><strong>Description : </strong> <span>@Html.Raw(Model.Photograph.Description)</span>
+                    </p>
+                </span>
+                
+                <p class="form-control border"><strong>Count : </strong> <input disabled asp-for="Count" /></p>
+
+
+            </div>
+            <div class="row pt-2">
+                <div class="col-6">
+                    <button class="btn btn-primary form-control">Add to Cart</button>
+                    
+                </div>
+                <div class="col-6">
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary form-control">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    

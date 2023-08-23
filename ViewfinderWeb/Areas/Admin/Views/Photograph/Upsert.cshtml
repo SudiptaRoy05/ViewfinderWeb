@@ -1,0 +1,106 @@
+﻿@model Viewfinder.Models.ViewModels.PhotographVM
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+   <input asp-for="photograph.Id" hidden/>
+   <input asp-for="photograph.ImageUrl" hidden/>
+    @*<div asp-validation-summary="All"></div>*@
+    <div class="row border-2">
+        <div class="col-10">
+            <div class="border mt-4 p-3 row">
+                <div class="col-12 pt-2">
+                    <h3 class="text-primary">@(Model.photograph.Id != 0 ? "Update" : "Upload") Photograph</h3>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="photograph.Title"></label>
+                    <input asp-for="photograph.Title" class="form-control" />
+                    <span asp-validation-for="photograph.Title" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="photograph.Author"></label>
+                    <input asp-for="photograph.Author" class="form-control" />
+                    <span asp-validation-for="photograph.Author" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-12">
+                    <label asp-for="photograph.Description"></label>
+                    <textarea asp-for="photograph.Description" class="form-control">Description</textarea>
+                    @*<input asp-for="photograph.Description" class="form-control" />*@
+                    <span asp-validation-for="photograph.Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 col-6">
+                    <label asp-for="photograph.ImageUrl"></label>
+                    <input type="file" id="uploadBox" asp-for="photograph.ImageUrl" name="file" class="form-control"  />
+
+
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="photograph.Price"></label>
+                    <input asp-for="photograph.Price" class="form-control" />
+                    <span asp-validation-for="photograph.Price" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="photograph.CategoryId"></label>
+                    <select asp-for="photograph.CategoryId" asp-items="@Model.CategoryList" class="form-control">
+                        <option disabled selected>--Selecte Category--</option>
+                    </select>
+                    @*<input asp-for="photograph.CategoryId" class="form-control" />*@
+                    <span asp-validation-for="photograph.CategoryId" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="photograph.CompositionId"></label>
+                    <select asp-for="photograph.CompositionId" asp-items="@Model.CompositionList" class="form-control">
+                        <option disabled selected>--Selecte Composition--</option>
+                    </select>
+                    @*<input asp-for="photograph.CompositionId" class="form-control" />*@
+                    <span asp-validation-for="photograph.CompositionId" class="text-danger"></span>
+                </div>
+                <div class="">
+                    @if (Model.photograph.Id != 0)
+                    {
+                        <button class="btn btn-success" type="submit">Update</button>
+                        @*<input type="submit" class="btn btn-success" value="Update" />*@
+                    }
+                    else
+                    {
+                        <button class="btn btn-success" type="submit" onclick="return ValidateInput()">Upload</button>
+                        @*<input type="submit" onclick="return ValidateInput()" class="btn btn-success" value="Upload" />*@
+                    }
+                    <a asp-action="Index" asp-controller="Photograph" class="btn btn-secondary">Back To List</a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-2 mt-4">
+            <img src="@Model.photograph.ImageUrl" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+        </div>
+    </div>
+
+    
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+
+        function ValidateInput(){
+            if(document.getElementById("uploadBox").value == "" ){
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please Upload an Image!',
+                    
+                });
+                return false;
+            }
+            return true;
+        }
+    </script>
+}
